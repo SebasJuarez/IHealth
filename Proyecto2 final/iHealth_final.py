@@ -128,15 +128,60 @@ def Admin():
                 Admin()
 
     if opcion1=="2":
-        Admin()
+        print("Elija entre las opciones:")
+        print("1. Agregar una sesión\n2. Modificar una sesión\n3. Eliminar una sesión\n4. Regresar al inicio")
+        opcion2=input()
+        if opcion2=="1":
+            print("Ingrese los datos de la sesión a agregar:")
+            ses_id = input("Numero de la sesión: ")
+            ses_desc=input("Descripcion: ")
+            ses_dura=input("Duracion de la sesión: ")
+            ses_cate=input("Categoria de la sesión: ")
+            ses_inst=input("Numero del instructor que la imparte: ")
+            cursor.execute("insert into cursos (curso_id, descripcion, duracion, categoria, inst_id) values (%s, %s, %s, %s, %s)", (ses_id, ses_desc, ses_dura, ses_cate, ses_inst))
+            print("Sesión agregada, regresando al menu")
+            Admin()
+        elif opcion2 =="2":
+            sescod=input("Escriba el codigo de la sesión que desa modificar: ")
+            cursor.execute("select curso_id from cursos where inst_id = %s", (sescod))
+            hay=cursor.rowcount
+            if hay == 1:
+                nue_dura=input("Duracion de la sesión: ")
+                nue_cate=input("Categoria de la sesión: ")
+                nue_inst=input("Nuevo instructor: ")
+                cursor.execute("update cursos set duracion=%s where curso_id=%s", (nue_dura,sescod))
+                cursor.execute("update cursos set categoria=%s where curso_id=%s", (nue_cate,sescod))
+                cursor.execute("update cursos set inst_id=%s where curso_id=%s", (nue_inst,sescod))
+                print("Se ha cambiado exitosamente\nVolviendo al menu")
+                Admin()
+            else:
+                print("No existe esta sesión\nVolviendo al menu")
+                Admin()
+        elif opcion2=="3":
+            sescod=input("Escriba el codigo de la sesion que desa dar de baja: ")
+            cursor.execute("select curso_id from cursos where curso_id = %s", (sescod))
+            hay=cursor.rowcount
+            if hay == 1:
+                cursor.execute("delete from cursos where curso_id=%s", (sescod))
+                print("Se ha dado de baja exitosamente\nVolviendo al Menu")
+                Admin()
+            else:
+                print("No existe esta sesión\nVolviendo al menu")
+                Admin()
     if opcion1=="3":
         Admin()
     if opcion1=="4":
         main()
 
 def Miembro():
-    print("Esta es una prueba")
+    
     main()
+
+def suscripcion():
+    print("Para usar estos servicios, debe utilizar seleccionar una suscripcion: ")
+    print("1. Oro\n2. Diamante")
+    opcion3=input("Elija uno para ver una descripción mas detallada")
+    Miembro()
 main()
 
 
