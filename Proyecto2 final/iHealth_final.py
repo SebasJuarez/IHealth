@@ -301,14 +301,17 @@ def asignacion():
     print("Asignar un curso")
     user=input("Ingrese codigo de usuario:")
     curso=input("Ingrese el codigo del curso al cual se quiere asignar: ")
-    fecha=input("Ingrese la fecha la cual quiere iniciar (formato dia, mes año): ")
+    fecha=datetime.today().strftime('%d-%m-%Y')
     hora=input
     cursor.execute("select inst_id from cursos where curso_id = %s", (curso))
-    inst=cursor.fetchone()[0]
+    ins=cursor.fetchone()
+    inst=ins[0]
     cursor.execute("select categoria from cursos where curso_id = %s", (curso))
-    categoria=cursor.fetchone()[0]
+    ca=cursor.fetchone()
+    categoria=ca[0]
     cursor.execute("select duracion from cursos where curso_id = %s", (curso))
-    duracion=cursor.fetchone()[0]
+    du=cursor.fetchone()
+    duracion=du[0]
     cursor.execute("insert into sesiones (curso_id, fecha, hora, duracion, inst_id, categoria, user_id) values (%s, %s, %s, %s, %s, %s, %s)", (curso, fecha, hora, duracion, inst, categoria, user))
     print("Se ha asignado correctamente!\nDesea asignar otro?")
     print("1. Si\n2. No")
